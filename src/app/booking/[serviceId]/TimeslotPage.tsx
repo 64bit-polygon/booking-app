@@ -2,7 +2,7 @@ import TimeslotPicker from './TimeslotPicker';
 
 async function fetchTimeslots(serviceId: string) {
   const res = await fetch(
-    `http://localhost:3000/api/timeslots?serviceId=${serviceId}`,
+    `/api/timeslots?serviceId=${serviceId}`,
     { cache: 'no-store' }
   );
   

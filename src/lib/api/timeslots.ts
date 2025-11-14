@@ -7,7 +7,7 @@ export async function getTimeslots(serviceId: string): Promise<Timeslot[]> {
   const timeslots: Timeslot[] = [];
   const today = new Date();
 
-  // Generate timeslots for next 7 days, 9 AM to 5 PM
+  // generates timeslots for next 7 days, 9 AM to 5 PM
   for (let day = 0; day < 7; day++) {
     const date = new Date(today);
     date.setDate(date.getDate() + day);
