@@ -6,20 +6,24 @@ export async function getTimeslots(serviceId: string): Promise<Timeslot[]> {
 
   const timeslots: Timeslot[] = [];
   
-  const now = new Date();
-  // we'll assume they're all in EST for simplicity's sake
-  const estDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  
   for (let day = 0; day < 7; day++) {
     for (let hour = 9; hour < 17; hour++) {
-      const slotTime = new Date(estDate);
-      slotTime.setDate(estDate.getDate() + day);
-      slotTime.setHours(hour, 0, 0, 0);
+      const date = new Date();
+      date.setDate(date.getDate() + day);
+      
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const dayStr = String(date.getDate()).padStart(2, '0');
+      const hourStr = String(hour).padStart(2, '0');
+      
+      // for simplicity's sake we'll just be doing est
+      const isoString = `${year}-${month}-${dayStr}T${hourStr}:00:00-05:00`;
+      const slotTime = new Date(isoString);
 
       timeslots.push({
         id: crypto.randomUUID(),
         time: slotTime.toISOString(),
-        available: Math.random() > 0.75 // 25% are availible
+        available: Math.random() > 0.75 // 25% are available
       });
     }
   }
