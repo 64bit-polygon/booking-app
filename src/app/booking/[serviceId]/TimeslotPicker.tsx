@@ -26,11 +26,11 @@ const formatTime = (isoString?: string) =>
 export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId }: TimeslotPickerProps) {
   const [timeslots, setTimeslots] = useState(initialTimeslots);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState({ [NAME]: '', [EMAIL]: '' });
   const [errors, setErrors] = useState({ [NAME]: '', [EMAIL]: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const selectedTimeSlot = timeslots.find(slot => slot.id === selectedSlotId)?.time;
   const availableSlots = timeslots.filter(slot => slot.available);
 
   const updateForm = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +65,8 @@ export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId 
       setIsSubmitting(false);
       return;
     }
+
+    setSelectedTimeSlot(timeslots.find(slot => slot.id === selectedSlotId)?.time)
   
     // Simulate API call to create booking
     // returns an updated list of timeslots
