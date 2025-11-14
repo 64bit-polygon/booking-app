@@ -17,7 +17,7 @@ interface TimeslotPickerProps {
 const formatTime = (isoString?: string) => {
   if (!isoString) return '';
 
-  return   new Date(Date.now()).toLocaleString('en-US', {
+  return   new Date(isoString).toLocaleString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
