@@ -25,6 +25,7 @@ export default function TimeslotListItem({ timeslotId, isSelected, onChange, chi
         value={timeslotId}
         name="timeSlots"
         className={inputClasses}
+        checked={isSelected}
         onChange={onChange}
       />
     </label>
