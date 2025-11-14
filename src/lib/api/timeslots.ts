@@ -7,6 +7,7 @@ export async function getTimeslots(serviceId: string): Promise<Timeslot[]> {
   const timeslots: Timeslot[] = [];
   
   const now = new Date();
+  // we'll assume they're all in EST for simplicity's sake
   const estDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
   
   for (let day = 0; day < 7; day++) {
