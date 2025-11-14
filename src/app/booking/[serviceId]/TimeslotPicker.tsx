@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Timeslot } from '@/types';
 import BookingForm from './BookingForm';
 import TimeslotListItem from './TimeslotlistItem';
