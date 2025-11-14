@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Timeslot } from '@/types';
 import BookingForm from './BookingForm';
 import TimeslotListItem from './TimeslotlistItem';
@@ -22,11 +22,12 @@ const formatTime = (isoString?: string) => {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
-    minute: '2-digit',
+    minute: '2-digit'
   });
 }
 
 export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId }: TimeslotPickerProps) {
+  const [isMounted, setMounted] = useState(false);
   const [timeslots, setTimeslots] = useState(initialTimeslots);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>();
@@ -35,6 +36,11 @@ export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId 
   const [errors, setErrors] = useState({ [NAME]: '', [EMAIL]: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const availableSlots = timeslots.filter(slot => slot.available);
+
+  useEffect(() => {
+    // used to prevent client / server date mismatch
+    setMounted(true);
+  }, []);
 
   const updateForm = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const key = ev.target.type === 'email' ? EMAIL : NAME;
@@ -96,7 +102,7 @@ export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId 
           isSelected={selectedSlotId === slot.id}
           onChange={ev => setSelectedSlotId(ev.target.value)}
         >
-          {formatTime(slot.time)}
+          {isMounted ? formatTime(slot.time) : ''}
         </TimeslotListItem>
       ))}
       </div>

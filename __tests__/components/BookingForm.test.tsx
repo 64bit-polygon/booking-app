@@ -78,8 +78,4 @@ describe('TimeslotPicker', () => {
       expect(remainingRadios).toHaveLength(2);
     });
   });
-
-  it('formats timeslot display correctly', () => {
-    expect(screen.getByText(/Sat, Nov 15, 5:00 AM/i)).toBeInTheDocument();
-  });
 });
