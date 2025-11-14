@@ -14,14 +14,17 @@ interface TimeslotPickerProps {
   serviceId: string;
 }
 
-const formatTime = (isoString?: string) =>
-  new Date(isoString ?? Date.now()).toLocaleString('en-US', {
+const formatTime = (isoString?: string) => {
+  if (!isoString) return '';
+
+  return   new Date(Date.now()).toLocaleString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
   });
+}
 
 export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId }: TimeslotPickerProps) {
   const [timeslots, setTimeslots] = useState(initialTimeslots);
