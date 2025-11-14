@@ -22,12 +22,15 @@ const formatTime = (isoString?: string) => {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
-    minute: '2-digit'
+    minute: '2-digit',
+    // for simplicity's sake we'll assume it's always EST
+    // we'd need to add a provider timezone to the API but
+    // didn't want to make this too complex
+    timeZone: 'America/New_York'
   });
 }
 
 export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId }: TimeslotPickerProps) {
-  const [isMounted, setMounted] = useState(false);
   const [timeslots, setTimeslots] = useState(initialTimeslots);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>();
@@ -36,11 +39,6 @@ export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId 
   const [errors, setErrors] = useState({ [NAME]: '', [EMAIL]: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const availableSlots = timeslots.filter(slot => slot.available);
-
-  useEffect(() => {
-    // used to prevent client / server date mismatch
-    setMounted(true);
-  }, []);
 
   const updateForm = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const key = ev.target.type === 'email' ? EMAIL : NAME;
@@ -102,7 +100,7 @@ export default function TimeslotPicker({ timeslots: initialTimeslots, serviceId 
           isSelected={selectedSlotId === slot.id}
           onChange={ev => setSelectedSlotId(ev.target.value)}
         >
-          {isMounted ? formatTime(slot.time) : ''}
+          {formatTime(slot.time)}
         </TimeslotListItem>
       ))}
       </div>

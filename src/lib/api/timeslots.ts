@@ -9,23 +9,17 @@ export async function getTimeslots(serviceId: string): Promise<Timeslot[]> {
 
   // generates timeslots for next 7 days, 9 AM to 5 PM
   for (let day = 0; day < 7; day++) {
+    const date = new Date(today);
+    date.setDate(date.getDate() + day);
+
     for (let hour = 9; hour < 17; hour++) {
-      const date = new Date();
-      date.setDate(date.getDate() + day);
-      
-      // format as EST time string
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const dayStr = String(date.getDate()).padStart(2, '0');
-      const hourStr = String(hour).padStart(2, '0');
-      
-      // ISO string for EST timezone
-      const estDate = new Date(`${year}-${month}-${dayStr}T${hourStr}:00:00-05:00`);
+      const slotTime = new Date(date);
+      slotTime.setHours(hour, 0, 0, 0);
 
       timeslots.push({
         id: crypto.randomUUID(),
-        time: estDate.toISOString(),
-        available: Math.random() > 0.3,
+        time: slotTime.toISOString(),
+        available: Math.random() > 0.75, // 25% available
       });
     }
   }
